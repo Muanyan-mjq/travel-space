@@ -34,8 +34,10 @@
         .strip img{width:calc(33.33% - 4px);height:65px;object-fit:cover;border-radius:8px;cursor:pointer}
         .lb{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;cursor:pointer;flex-direction:column}
         .lb.show{display:flex}
-        .lb .lb-inner{position:relative;display:flex;align-items:center;justify-content:center;width:80vw;height:70vh}
-        .lb img,.lb video{max-width:100%;max-height:100%;border-radius:8px;transition:transform .3s}
+        .lb .lb-inner{position:relative;display:flex;align-items:center;justify-content:center}
+        .lb img{max-width:94vw;max-height:88vh;border-radius:8px;transition:transform .3s}
+        .lb .video-box{width:800px;height:500px;display:flex;align-items:center;justify-content:center;background:#000;border-radius:8px}
+        .lb .video-box video{width:100%;height:100%}
         .lb #lbContent{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
         .lb .close{position:absolute;top:24px;right:32px;color:#fff;font-size:36px;cursor:pointer;z-index:2}
         .lb .nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:44px;cursor:pointer;padding:20px;user-select:none;z-index:2}
@@ -125,7 +127,7 @@
         function openLB(items,idx,type){lbItems=items;lbIdx=idx;lbScale=1;lbType=type||'img';updateLB();document.getElementById('lb').classList.add('show')}
         function updateLB(){
             var c=document.getElementById('lbContent');
-            if(lbType==='video')c.innerHTML='<video src="'+lbItems[lbIdx]+'" controls autoplay style="width:100%;height:100%;object-fit:contain;border-radius:8px;background:#000"></video>';
+            if(lbType==='video')c.innerHTML='<div class="video-box"><video src="'+lbItems[lbIdx]+'" controls autoplay></video></div>';
             else c.innerHTML='<img src="'+lbItems[lbIdx]+'" style="max-width:94vw;max-height:88vh;border-radius:8px;transform:scale('+lbScale+');transition:transform .3s">';
         }
         function closeLB(){lbScale=1;document.getElementById('lbContent').innerHTML='';document.getElementById('lb').classList.remove('show')}
