@@ -124,7 +124,7 @@
         function openLB(items,idx,type){lbItems=items;lbIdx=idx;lbScale=1;lbType=type||'img';updateLB();document.getElementById('lb').classList.add('show')}
         function updateLB(){
             var c=document.getElementById('lbContent');
-            if(lbType==='video')c.innerHTML='<video src="'+lbItems[lbIdx]+'" controls autoplay style="max-width:90vw;max-height:70vh;width:auto;height:auto;border-radius:8px;min-width:400px"></video>';
+            if(lbType==='video')c.innerHTML='<video src="'+lbItems[lbIdx]+'" controls autoplay style="max-width:90vw;max-height:85vh;min-width:600px;border-radius:8px"></video>';
             else c.innerHTML='<img src="'+lbItems[lbIdx]+'" style="max-width:94vw;max-height:88vh;border-radius:8px;transform:scale('+lbScale+');transition:transform .3s">';
         }
         function closeLB(){lbScale=1;document.getElementById('lbContent').innerHTML='';document.getElementById('lb').classList.remove('show')}
