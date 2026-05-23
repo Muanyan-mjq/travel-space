@@ -76,7 +76,7 @@
 
         <div class="videos">
             <h2>视频</h2>
-            <button class="gallery-btn" onclick="location.href='videos.html'">浏览全部视频</button>
+            <button class="gallery-btn" onclick="openVideos()">浏览全部视频</button>
             <div class="video-grid" id="videoGrid" style="display:none"></div>
         </div>
     </div>
@@ -94,6 +94,7 @@
     <footer>&copy; 2026 慕安延</footer>
 
     <script src="all_photos.js"></script>
+    <script src="all_videos.js"></script>
 
     <script>
         var C='photos/2026%E5%B9%B44%E6%9C%8817%E6%97%A5-4%E6%9C%8819%E6%97%A5%E5%8D%97%E6%98%8C';
@@ -131,6 +132,7 @@
         function zoomLB(d){if(d===0)lbScale=1;else lbScale=Math.max(0.5,Math.min(3,lbScale+d));updateLB()}
 
         function openAll(){if(typeof ALL_PHOTOS!=='undefined')openLB(ALL_PHOTOS,0,'img')}
+        function openVideos(){if(typeof ALL_VIDEOS!=='undefined')openLB(ALL_VIDEOS,0,'video')}
 
         // 视频列表
         document.addEventListener('keydown',function(e){if(!document.getElementById('lb').classList.contains('show'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowLeft')navLB(-1);if(e.key==='ArrowRight')navLB(1)});
