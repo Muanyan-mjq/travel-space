@@ -7,8 +7,9 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;background:linear-gradient(180deg,#dce4ff 0%,#f3f6ff 30%,#fafaf9 60%,#e8eeff 100%) fixed;color:#1a1a1a;min-height:100vh;padding:40px}
-        h1{text-align:center;font-size:28px;margin-bottom:30px}
-        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;max-width:1200px;margin:0 auto}
+        h1{text-align:center;font-size:28px;margin-bottom:8px}
+        .sub{text-align:center;font-size:13px;color:#5c5c5e;margin-bottom:30px}
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;max-width:1200px;margin:0 auto}
         .vid{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e5ea}
         video{width:100%;display:block}
         .vid .name{padding:10px 14px;font-size:12px;color:#5c5c5e}
@@ -18,16 +19,13 @@
 <body>
     <a class="back" href="nanchang.html">← 返回</a>
     <h1>南昌之行 · 视频</h1>
+    <div class="sub">22 个视频</div>
     <div class="grid" id="grid"></div>
     <script>
-        fetch('videos/').then(r=>r.text()).then(html=>{
-            var re=/href="([^"]+_cp\.mp4)"/gi,m,names=[];
-            while((m=re.exec(html))!==null)names.push(m[1]);
-            names.sort();
-            var g=document.getElementById('grid');
-            names.forEach(function(n){
-                g.innerHTML+='<div class="vid"><video src="videos/'+n+'" controls preload="metadata"></video><div class="name">'+n.replace('_cp.mp4','').replace('VID','')+'</div></div>';
-            });
+        var videos=['lv_7298697501622750503_20260417231501_cp.mp4','VID_20260418_194736_cp.mp4','VID20260417092035_cp.mp4','VID20260417093649_cp.mp4','VID20260417125034_cp.mp4','VID20260417125155_cp.mp4','VID20260417162139_cp.mp4','VID20260417162704_cp.mp4','VID20260418184429_cp.mp4','VID20260418192924_cp.mp4','VID20260418194242_cp.mp4','VID20260418194330_cp.mp4','VID20260418194554_cp.mp4','VID20260418194747_cp.mp4','VID20260418220205_cp.mp4','VID20260419101354_cp.mp4','VID20260419102048_cp.mp4','VID20260419105959_cp.mp4','VID20260419110103_cp.mp4','VID20260419110317_cp.mp4','VID20260419110558_cp.mp4','VID20260419110806_cp.mp4'];
+        var g=document.getElementById('grid');
+        videos.forEach(function(v){
+            g.innerHTML+='<div class="vid"><video src="videos/'+v+'" controls preload="metadata"></video><div class="name">'+v.replace('_cp.mp4','')+'</div></div>';
         });
     </script>
 </body>
