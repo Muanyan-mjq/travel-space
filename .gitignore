@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.dng
+*.log
+photos/
+china.json
+all_photos.js
+all_videos.js

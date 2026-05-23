@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>详情 · 足迹</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#fafaf9;--t:#1a1a1a;--td:#5c5c5e;--tf:#aeaeb2;--b:#e5e5ea;--ac:#2563eb}
+        body.dark{--bg:#0b0b0b;--t:#e4e4e4;--td:#98989e;--tf:#505050;--b:#272727}
+        body{font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;background:linear-gradient(180deg,#dce4ff 0%,#f3f6ff 30%,#fafaf9 60%,#e8eeff 100%) fixed;color:var(--t);line-height:1.75;font-size:15px;min-height:100vh}
+        .container{max-width:900px;margin:0 auto;padding:36px 32px 100px}
+        .back{display:inline-block;color:var(--td);text-decoration:none;font-size:13px;margin-bottom:32px}.back:hover{color:var(--ac)}
+        .hero{margin-bottom:40px}.hero h1{font-size:34px;font-weight:800;letter-spacing:-1px;margin-bottom:6px}
+        .hero .meta{font-size:14px;color:var(--td);display:flex;gap:16px;align-items:center}
+        .hero .meta .city{font-weight:600;color:var(--ac)}
+        .hero .note{font-size:15px;color:var(--td);line-height:1.8;margin-top:14px;padding:18px 22px;background:var(--bg);border:1px solid var(--b);border-radius:14px}
+
+        .timeline{position:relative;padding-left:28px;margin-top:32px}
+        .timeline::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:1px;background:var(--b)}
+        .tl-item{position:relative;margin-bottom:32px}
+        .tl-item::before{content:'';position:absolute;left:-23px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--ac)}
+        .tl-item .tl-time{font-size:12px;color:var(--tf);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+        .tl-item .tl-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+        .tl-item .tl-photos img{width:100%;border-radius:12px;cursor:pointer;transition:transform .3s;display:block}
+        .tl-item .tl-photos img:hover{transform:scale(1.04)}
+
+        .pagination{display:flex;justify-content:center;gap:12px;margin:40px 0 20px}
+        .pagination button{padding:8px 20px;border:1px solid var(--b);border-radius:10px;background:none;color:var(--t);font-size:13px;cursor:pointer}
+        .pagination button:hover{border-color:var(--ac);color:var(--ac)}
+        .pagination button.active{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+        .lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;cursor:pointer}
+        .lightbox.show{display:flex}.lightbox img{max-width:94vw;max-height:90vh;border-radius:8px}
+        .lightbox .close{position:absolute;top:20px;right:28px;color:#fff;font-size:34px;cursor:pointer}
+        .lightbox .nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:46px;cursor:pointer;padding:18px;user-select:none}
+        .lightbox .prev{left:12px}.lightbox .next{right:12px}
+        footer{text-align:center;padding:48px 32px;font-size:12px;color:var(--tf);border-top:1px solid var(--b)}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back" href="main.html">← 返回足迹</a>
+        <div id="content"><div style="color:var(--tf);padding:40px 0">加载中...</div></div>
+    </div>
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="close">&times;</span><span class="nav prev" onclick="event.stopPropagation();navPhoto(-1)">‹</span><img id="lb-img"><span class="nav next" onclick="event.stopPropagation();navPhoto(1)">›</span></div>
+    <footer>&copy; 2026 慕安延</footer>
+
+    <script>
+        let photos=[],lbIdx=0;
+        const params=new URLSearchParams(location.search),date=params.get('date');
+        fetch('data.json').then(r=>r.json()).then(data=>{
+            const entry=data.trips.find(e=>e.date===date);
+            if(!entry){document.getElementById('content').innerHTML='<div style="padding:40px 0;color:var(--tf)">未找到记录。</div>';return}
+            photos=entry.photos;
+            document.title=`${entry.city} · ${entry.title} - 足迹`;
+            const c=document.getElementById('content');
+            let html=`<div class="hero"><h1>${entry.title}</h1><div class="meta"><span class="city">${entry.city}</span><span>${entry.date}</span><span>${entry.photos.length} 张照片</span></div>${entry.note?`<div class="note">${entry.note}</div>`:''}</div>`;
+
+            const perPage=12,pages=Math.ceil(photos.length/perPage);
+            let page=parseInt(params.get('page'))||1;
+            if(page<1)page=1;if(page>pages)page=pages;
+            const start=(page-1)*perPage,slice=photos.slice(start,start+perPage);
+
+            html+=`<div class="timeline">`;
+            for(let i=0;i<slice.length;i+=3){
+                const day=`第${start+i+1}-${Math.min(start+i+3,start+slice.length)}张`;
+                html+=`<div class="tl-item"><div class="tl-time">${day}</div><div class="tl-photos">`;
+                for(let j=i;j<Math.min(i+3,slice.length);j++)
+                    html+=`<img src="${slice[j]}" loading="lazy" onclick="openLightbox(${start+j})" onerror="this.style.display='none'">`;
+                html+=`</div></div>`;
+            }
+            html+=`</div>`;
+            if(pages>1){
+                html+=`<div class="pagination">`;
+                for(let p=1;p<=pages;p++)html+=`<button class="${p===page?'active':''}" onclick="location.href='detail.html?date=${date}&page=${p}'">${p}</button>`;
+                html+=`</div>`;
+            }
+            c.innerHTML=html;
+        }).catch(()=>{document.getElementById('content').innerHTML='<div style="padding:40px 0;color:var(--tf)">数据加载失败。</div>'});
+        function openLightbox(i){lbIdx=i;document.getElementById('lb-img').src=photos[i];document.getElementById('lightbox').classList.add('show')}
+        function closeLightbox(){document.getElementById('lightbox').classList.remove('show')}
+        function navPhoto(d){if(lbIdx+d>=0&&lbIdx+d<photos.length)openLightbox(lbIdx+d)}
+        document.addEventListener('keydown',e=>{if(!document.getElementById('lightbox').classList.contains('show'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft')navPhoto(-1);if(e.key==='ArrowRight')navPhoto(1)});
+    </script>
+</body>
+</html>

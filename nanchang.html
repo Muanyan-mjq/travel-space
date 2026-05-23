@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>南昌之行 · 慕安延</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}:root{--ac:#2563eb}
+        body{font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;background:linear-gradient(180deg,#dce4ff 0%,#f3f6ff 30%,#fafaf9 60%,#e8eeff 100%) fixed;color:#1a1a1a;line-height:1.75;font-size:15px;min-height:100vh}
+        nav{position:sticky;top:0;z-index:100;background:rgba(250,250,249,.92);backdrop-filter:blur(12px);border-bottom:1px solid #e5e5ea;padding:0 40px}
+        nav .inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:54px}
+        nav .logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+        nav .logo img{width:28px;height:28px;border-radius:8px;object-fit:cover}
+        .container{max-width:960px;margin:0 auto;padding:48px 32px 100px}
+        .back{display:inline-block;color:#5c5c5e;text-decoration:none;font-size:13px;margin-bottom:40px}.back:hover{color:var(--ac)}
+        .page-title{margin-bottom:60px}
+        .page-title .loc{font-size:12px;color:var(--ac);letter-spacing:3px;font-weight:600;margin-bottom:8px}
+        .page-title h1{font-size:40px;font-weight:800;letter-spacing:-1px}
+        .page-title .date{font-size:14px;color:#5c5c5e;margin-top:6px}
+        .tl{position:relative;width:100%}
+        .tl svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+        .spot{position:relative;margin-bottom:50px;overflow:hidden;min-height:200px}
+        .spot .dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;background:var(--ac);border-radius:50%;border:4px solid #dce4ff;z-index:3}
+        .card{float:right;width:440px;background:#fff;border:1px solid #e5e5ea;border-radius:16px;overflow:hidden}
+        .spot:nth-child(even) .card{float:left}
+        .card .cover{height:200px;overflow:hidden;position:relative}
+        .card .cover img{width:100%;height:100%;object-fit:cover}
+        .cover .ph{position:absolute;inset:0;background:#f0f2ff;display:flex;align-items:center;justify-content:center;font-size:16px;color:#bbb}
+        .card .info{padding:16px 20px 0}
+        .card .info .name{font-size:17px;font-weight:700}
+        .card .info .d{font-size:12px;color:#5c5c5e;margin-top:2px}
+        .strip{display:flex;gap:6px;flex-wrap:wrap;padding:14px 20px 18px}
+        .strip img{width:calc(33.33% - 4px);height:65px;object-fit:cover;border-radius:8px;cursor:pointer}
+        .lb{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;cursor:pointer;flex-direction:column}
+        .lb.show{display:flex}
+        .lb .lb-inner{position:relative;display:flex;align-items:center;justify-content:center}
+        .lb img,.lb video{max-width:94vw;max-height:88vh;border-radius:8px;transition:transform .3s}
+        .lb .close{position:absolute;top:24px;right:32px;color:#fff;font-size:36px;cursor:pointer;z-index:2}
+        .lb .nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:44px;cursor:pointer;padding:20px;user-select:none;z-index:2}
+        .lb .prev{left:12px}.lb .next{right:12px}
+        .lb .zoom-bar{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:12px;background:rgba(255,255,255,.15);border-radius:20px;padding:6px 16px;z-index:2}
+        .lb .zoom-bar button{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:2px 8px}
+        .all-photos{margin-top:60px;text-align:center}
+        .all-photos h2{font-size:14px;font-weight:700;color:#aaa;letter-spacing:2px;border-bottom:1px solid #e5e5ea;padding-bottom:10px;margin-bottom:20px}
+        .gallery-btn{padding:16px 40px;background:linear-gradient(135deg,var(--ac),#7c3aed);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;transition:opacity .2s}
+        .gallery-btn:hover{opacity:.9}
+
+        .videos{margin-top:60px;text-align:center}
+        .videos h2{font-size:14px;font-weight:700;color:#aaa;letter-spacing:2px;border-bottom:1px solid #e5e5ea;padding-bottom:10px;margin-bottom:16px}
+        .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+        .video-card{background:#fff;border:1px solid #e5e5ea;border-radius:14px;padding:16px}
+        .video-card video{width:100%;border-radius:10px;display:block}
+        .video-placeholder{width:100%;aspect-ratio:16/9;background:#f0f2ff;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:14px}
+        @media(max-width:700px){.card{float:none!important;width:100%}}
+        footer{text-align:center;padding:48px 32px;font-size:12px;color:#aaa;border-top:1px solid #e5e5ea}
+    </style>
+</head>
+<body>
+    <nav><div class="inner"><a href="index.html" style="text-decoration:none;color:inherit"><div class="logo"><img src="avatar.jpg" alt="" onerror="this.style.display='none'">慕安延</div></a></div></nav>
+    <div class="container">
+        <a class="back" href="main.html">← 返回足迹</a>
+        <div class="page-title">
+            <div class="loc">JIANGXI · NANCHANG</div>
+            <h1>欢迎来到江西南昌</h1>
+            <div class="date">2026年4月17日 — 4月19日</div>
+        </div>
+        <div class="tl" id="tl">
+            <svg viewBox="0 0 80 1300" preserveAspectRatio="none"><path d="M40,60 C10,160 70,260 40,360 C10,460 70,560 40,660 C10,760 70,860 40,960 C10,1060 70,1160 40,1260" fill="none" stroke="#2563eb" stroke-width="2" stroke-opacity="0.3" stroke-linecap="round"/></svg>
+        </div>
+
+        <div class="all-photos">
+            <h2>全部照片</h2>
+            <button class="gallery-btn" id="galleryBtn" onclick="openAll()">浏览全部照片</button>
+        </div>
+
+        <div class="videos">
+            <h2>视频</h2>
+            <button class="gallery-btn" onclick="openVideos()">浏览全部视频</button>
+            <div class="video-grid" id="videoGrid" style="display:none"></div>
+        </div>
+    </div>
+    <div class="lb" id="lb" onclick="closeLB()">
+        <span class="close">&times;</span>
+        <span class="nav prev" onclick="event.stopPropagation();navLB(-1)">‹</span>
+        <div class="lb-inner" onclick="event.stopPropagation()"><div id="lbContent"></div></div>
+        <span class="nav next" onclick="event.stopPropagation();navLB(1)">›</span>
+        <div class="zoom-bar" onclick="event.stopPropagation()">
+            <button onclick="zoomLB(-0.3)">−</button>
+            <button onclick="zoomLB(0)">1:1</button>
+            <button onclick="zoomLB(0.3)">+</button>
+        </div>
+    </div>
+    <footer>&copy; 2026 慕安延</footer>
+
+    <script src="all_photos.js"></script>
+    <script src="all_videos.js"></script>
+
+    <script>
+        var C='photos/2026%E5%B9%B44%E6%9C%8817%E6%97%A5-4%E6%9C%8819%E6%97%A5%E5%8D%97%E6%98%8C';
+        var S=[
+            ['江西省美术馆','%E6%B1%9F%E8%A5%BF%E7%9C%81%E7%BE%8E%E6%9C%AF%E9%A6%86','4月17日',['IMG20260417123125','IMG20260417123641','IMG20260417123728','IMG20260417124044','IMG20260417124252','IMG20260417125822','IMG20260417130356','IMG20260417131259','IMG20260417134825']],
+            ['滕王阁','%E5%8D%97%E6%98%8C%E6%BB%95%E7%8E%8B%E9%98%81','4月17日',['IMG20260417155420','IMG20260417155756','IMG20260417155811','IMG20260417155936','IMG20260417161222','IMG_20260514_120405','IMG_20260514_120445']],
+            ['八一起义纪念馆','%E5%8D%97%E6%98%8C%E5%85%AB%E4%B8%80%E8%B5%B7%E4%B9%89%E7%BA%AA%E5%BF%B5%E9%A6%86','4月17日',['IMG20260417134803','IMG20260418120322','IMG_20260514_121015']],
+            ['江西省博物馆','%E6%B1%9F%E8%A5%BF%E7%9C%81%E5%8D%9A%E7%89%A9%E9%A6%86','4月18日',['IMG20260418112042','IMG20260418112317','IMG20260418112542','IMG20260418113405','IMG20260418113854','IMG20260418114222','IMG20260418114408','IMG20260418115559']],
+            ['秋水广场','%E7%A7%8B%E6%B0%B4%E5%B9%BF%E5%9C%BA%2B%E8%B5%A3%E6%B1%9F','4月18日',['IMG20260418184605','IMG20260418184707','IMG20260418185051','IMG20260418211446','IMG20260418212540','IMG20260418213445','IMG20260418220034']],
+            ['南昌之星摩天轮','%E5%8D%97%E6%98%8C%E4%B9%8B%E6%98%9F%E6%91%A9%E5%A4%A9%E8%BD%AE','4月19日',['IMG20260419102428','IMG20260419102704','IMG20260419102921','IMG20260419110656','IMG20260419110754','IMG20260419111053','IMG20260419111220','IMG20260419111234']]
+        ];
+        var lbIdx=0,lbItems=[],lbScale=1,lbType='img',allSpotPhotos=[];
+        var tl=document.getElementById('tl');
+        for(var i=0;i<S.length;i++){
+            var s=S[i],n=s[0],f=s[1],d=s[2],p=s[3];
+            var spotPhotos=[];
+            for(var j=0;j<p.length;j++)spotPhotos.push(C+'/'+f+'/'+p[j]+'.jpg');
+            allSpotPhotos.push(spotPhotos);
+            var h='<div class="spot"><div class="dot"></div><div class="card">';
+            h+='<div class="cover"><img src="'+spotPhotos[0]+'" onload="this.nextElementSibling.style.display=\'none\'" onerror="this.nextElementSibling.style.display=\'flex\'" onclick="openLB(allSpotPhotos['+i+'],0,\'img\')"><div class="ph">'+n+'</div></div>';
+            h+='<div class="info"><div class="name">'+n+'</div><div class="d">'+d+'</div></div>';
+            h+='<div class="strip">';
+            for(var j=0;j<p.length;j++)h+='<img src="'+spotPhotos[j]+'" loading="lazy" onclick="event.stopPropagation();openLB(allSpotPhotos['+i+'],'+j+',\'img\')">';
+            h+='</div></div></div>';
+            tl.innerHTML+=h;
+        }
+        function openLB(items,idx,type){lbItems=items;lbIdx=idx;lbScale=1;lbType=type||'img';updateLB();document.getElementById('lb').classList.add('show')}
+        function updateLB(){
+            var c=document.getElementById('lbContent');
+            if(lbType==='video')c.innerHTML='<video src="'+lbItems[lbIdx]+'" controls autoplay style="max-width:94vw;max-height:88vh;border-radius:8px;transform:scale('+lbScale+');transition:transform .3s"></video>';
+            else c.innerHTML='<img src="'+lbItems[lbIdx]+'" style="max-width:94vw;max-height:88vh;border-radius:8px;transform:scale('+lbScale+');transition:transform .3s">';
+        }
+        function closeLB(){lbScale=1;document.getElementById('lbContent').innerHTML='';document.getElementById('lb').classList.remove('show')}
+        function navLB(d){lbIdx=(lbIdx+d+lbItems.length)%lbItems.length;updateLB()}
+        function zoomLB(d){if(d===0)lbScale=1;else lbScale=Math.max(0.5,Math.min(3,lbScale+d));updateLB()}
+
+        function openAll(){if(typeof ALL_PHOTOS!=='undefined')openLB(ALL_PHOTOS,0,'img')}
+        function openVideos(){
+            if(typeof ALL_VIDEOS==='undefined')return;
+            var urls=ALL_VIDEOS.map(function(v){return v[1]});
+            openLB(urls,0,'video');
+        }
+
+        // 视频列表
+        if(typeof ALL_VIDEOS!=='undefined'){
+            var vg=document.getElementById('videoGrid');
+            ALL_VIDEOS.forEach(function(v){vg.innerHTML+='<div class="video-card"><video src="'+v[1]+'" controls preload="metadata"></video></div>'});
+        }
+        document.addEventListener('keydown',function(e){if(!document.getElementById('lb').classList.contains('show'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowLeft')navLB(-1);if(e.key==='ArrowRight')navLB(1)});
+        document.addEventListener('wheel',function(e){if(!document.getElementById('lb').classList.contains('show'))return;e.preventDefault();zoomLB(e.deltaY<0?0.15:-0.15)});
+    </script>
+</body>
+</html>

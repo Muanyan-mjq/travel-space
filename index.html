@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行空间 · 慕安延</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;background:linear-gradient(180deg,#dce4ff 0%,#f3f6ff 30%,#fafaf9 60%,#e8eeff 100%) fixed;color:#1a1a1a;min-height:100vh}
+        .bg-texts{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+        .bg-texts span{position:absolute;font-style:italic;font-weight:300;color:#2563eb;font-size:18px;white-space:nowrap;animation:float 12s ease-in-out infinite;user-select:none}
+        @keyframes float{0%,100%{transform:translateY(0)rotate(-2deg)}50%{transform:translateY(-10px)rotate(2deg)}}
+        .container{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;text-align:center;padding:40px}
+        .pre{font-size:12px;color:#2563eb;letter-spacing:4px;font-weight:600;margin-bottom:16px}
+        h1{font-size:48px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px;transition:transform .3s}
+        h1:hover{transform:translateY(-4px)}
+        .en{font-size:18px;color:#5c5c5e;font-weight:300;letter-spacing:2px;margin-bottom:40px;transition:transform .3s}
+        .en:hover{transform:translateY(-2px)}
+        .enter-btn{padding:16px 48px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:14px;font-size:17px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .3s;letter-spacing:2px}
+        .enter-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,99,235,.3)}
+        .quote-tl{position:fixed;top:36px;left:40px;font-size:22px;color:#1a1a1a;font-weight:600;letter-spacing:4px;z-index:2;text-shadow:0 2px 12px rgba(37,99,235,.15);font-family:'Noto Serif SC','SimSun',serif;font-style:italic}
+        .quote-br{position:fixed;bottom:36px;right:40px;font-size:22px;color:#1a1a1a;font-weight:600;letter-spacing:4px;z-index:2;text-shadow:0 2px 12px rgba(37,99,235,.15);font-family:'Noto Serif SC','SimSun',serif;font-style:italic}
+    </style>
+</head>
+<body>
+    <div class="bg-texts" id="bgTexts"></div>
+    <div class="quote-tl">你还年轻 &nbsp;·&nbsp; 你一定要去你想去的地方</div>
+    <div class="quote-br">不观世界怎么有世界观</div>
+    <div class="container">
+        <div class="pre">TRAVEL SPACE</div>
+        <h1>欢迎来到我的旅行空间</h1>
+        <div class="en">Welcome to My Travel Space</div>
+        <a class="enter-btn" href="main.html">进 入 &nbsp;→</a>
+    </div>
+    <footer>&copy; 2026 慕安延</footer>
+    <script>
+        var cities=[
+            '萨武神山','稻城亚丁','色达','理塘','新都桥','四姑娘山','海螺沟','贡嘎雪山','丹巴藏寨','康定',
+            '大理','丽江','洱海','香格里拉','泸沽湖','梅里雪山','西双版纳','腾冲','普达措','苍山',
+            '拉萨','纳木错','羊卓雍措','冈仁波齐','玛旁雍错','珠峰大本营','林芝','然乌湖','巴松措',
+            '布达拉宫','大昭寺','八廓街','日喀则','札达土林','古格王朝',
+            '喀纳斯','禾木','赛里木湖','独库公路','伊犁','那拉提','巴音布鲁克','帕米尔高原','喀什古城','天山天池',
+            '杭州','西湖','乌镇','西塘','苏州园林','南京','秦淮河','上海外滩','舟山','莫干山','无锡','扬州瘦西湖',
+            '成都','重庆','洪崖洞','张家界','凤凰古城','黄山','厦门鼓浪屿','三亚','桂林阳朔','敦煌莫高窟',
+            '西安城墙','兵马俑','青海湖','呼伦贝尔','长白山','九寨沟','黄果树','婺源','漠河','张掖丹霞','茶卡盐湖'
+        ];
+        var bg=document.getElementById('bgTexts');
+        cities.forEach(function(c,i){
+            var s=document.createElement('span');
+            s.textContent=c;
+            var col=i%6,row=Math.floor(i/6);
+            var baseX=col*16+5,baseY=row*10+5;
+            s.style.left=(baseX+(Math.random()-0.5)*10)+'%';
+            s.style.top=(baseY+(Math.random()-0.5)*8)+'%';
+            s.style.fontSize=(18+Math.random()*14)+'px';
+            s.style.opacity=(0.18+Math.random()*0.14);
+            s.style.animationDelay=(Math.random()*10)+'s';
+            s.style.animationDuration=(8+Math.random()*12)+'s';
+            s.style.transform='rotate('+(-15+Math.random()*30)+'deg)';
+            bg.appendChild(s);
+        });
+    </script>
+</body>
+</html>

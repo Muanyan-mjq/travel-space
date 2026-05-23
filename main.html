@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>足迹 · 慕安延</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#fafaf9;--t:#1a1a1a;--td:#5c5c5e;--tf:#aeaeb2;--b:#e5e5ea;--ac:#2563eb}
+        body{font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;background:linear-gradient(180deg,#dce4ff 0%,#f3f6ff 30%,#fafaf9 60%,#e8eeff 100%) fixed;color:var(--t);line-height:1.75;font-size:14.5px;min-height:100vh}
+        nav{position:sticky;top:0;z-index:100;background:rgba(250,250,249,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--b);padding:0 40px}
+        nav .inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:54px}
+        nav .logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+        nav .logo img{width:28px;height:28px;border-radius:8px;object-fit:cover}
+
+        .wrap{max-width:1400px;margin:0 auto;padding:0 40px}
+        .hero{padding:56px 0 36px;text-align:center}
+        .hero .sup{font-size:11px;color:var(--ac);letter-spacing:3px;font-weight:600;margin-bottom:8px}
+        .hero h1{font-size:40px;font-weight:800;letter-spacing:-1.5px}
+        .hero .sub{font-size:14px;color:var(--td);margin-top:4px}
+        .hero .motto{font-size:26px;font-weight:300;color:var(--td);margin-top:16px;letter-spacing:4px}
+        .hero .motto{font-size:26px;font-weight:300;color:var(--td);margin-top:16px;letter-spacing:4px}
+
+        .top-grid{display:grid;grid-template-columns:500px 1fr;gap:20px;margin-bottom:24px;align-items:start}
+        @media(max-width:800px){.top-grid{grid-template-columns:1fr}}
+        .right-stack{display:flex;flex-direction:column;gap:20px}
+
+        .calendar{background:none;border:none;padding:0}
+        .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+        .cal-header .month{font-size:15px;font-weight:700;letter-spacing:1px}
+        .cal-header button{background:none;border:none;color:var(--td);font-size:18px;cursor:pointer;padding:2px 8px;border-radius:4px}
+        .cal-header button:hover{color:var(--ac)}
+        .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:4px}
+        .cal-grid .dow{font-size:10px;color:var(--tf);padding:5px 0;font-weight:600}
+        .cal-grid .day{width:34px;height:34px;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:12px;border-radius:50%;transition:all .15s;cursor:default}
+        .cal-grid .day:hover{background:#f0f2ff}
+        .cal-grid .day.travel{background:var(--ac);color:#fff;cursor:pointer;font-weight:700;box-shadow:0 2px 10px rgba(37,99,235,.3)}
+        .cal-grid .day.travel:hover{transform:scale(1.15)}
+
+        .caro{position:relative;overflow:hidden;border-radius:16px;border:1px solid var(--b);background:#fff}
+        .caro-track{display:flex;transition:transform .6s cubic-bezier(.25,.1,.25,1)}
+        .caro-slide{min-width:100%;cursor:pointer}
+        .caro-slide img{width:100%;display:block;object-fit:cover}
+        .caro-dots{display:flex;gap:5px;justify-content:center;padding:10px 0}
+        .caro-dots span{width:5px;height:5px;border-radius:50%;background:var(--b);cursor:pointer;transition:.3s}
+        .caro-dots span.active{background:var(--ac);width:16px;border-radius:3px}
+        .caro-arrow{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.12);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;z-index:2}
+        .caro:hover .caro-arrow{opacity:1}.caro-arrow:hover{background:rgba(0,0,0,.28)}
+        .caro-arrow.pl{left:8px}.caro-arrow.pr{right:8px}
+
+        .lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.96);z-index:1000;justify-content:center;align-items:center;cursor:pointer}
+        .lightbox.show{display:flex}.lightbox img{max-width:95vw;max-height:92vh;border-radius:8px}
+        .lightbox .close{position:absolute;top:24px;right:32px;color:#fff;font-size:36px;cursor:pointer}
+        .lightbox .nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:48px;cursor:pointer;padding:20px;user-select:none}
+        .lightbox .prev{left:12px}.lightbox .next{right:12px}
+
+        .quote{margin:16px 0 32px;text-align:center;padding:24px 0}
+        .quote .q{font-size:22px;font-weight:300;color:var(--td);letter-spacing:2px}
+        .quote .q strong{color:var(--ac);font-weight:600}
+
+        .map-row{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:48px}
+        .map-text{font-size:14px;color:var(--td);text-align:center;padding:8px 0}
+        .map-wrap{margin-bottom:0}
+        .map-container{position:relative;width:100%;height:540px}
+        .map-bg{position:absolute;inset:0;background:#fff;border:1px solid var(--b);border-radius:20px;overflow:hidden}
+        .map-bg canvas{width:100%;height:100%}
+        .map-bg canvas{width:100%;height:100%}
+        .map-marker{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:2;text-decoration:none}
+        .map-marker .dot{width:14px;height:14px;background:var(--ac);border-radius:50%;box-shadow:0 0 0 8px rgba(37,99,235,.12);transition:.3s}
+        .map-marker:hover .dot{width:18px;height:18px;box-shadow:0 0 0 14px rgba(37,99,235,.22)}
+        .map-marker .tooltip{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--b);border-radius:12px;padding:12px 16px;width:190px;opacity:0;pointer-events:none;transition:opacity .25s;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+        .map-marker:hover .tooltip{opacity:1}
+        .tooltip .tp-date{font-size:10px;color:var(--tf);font-weight:600;margin-bottom:3px}
+        .tooltip .tp-title{font-size:13px;font-weight:700;margin-bottom:3px}
+        .tooltip .tp-img{width:100%;height:70px;object-fit:cover;border-radius:8px;margin-top:4px}
+        .tooltip .tp-count{font-size:10px;color:var(--ac);margin-top:3px}
+
+        .trips-row{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-bottom:80px;align-items:start}
+        @media(max-width:800px){.trips-row{grid-template-columns:1fr}}
+        .trips h2{font-size:12px;font-weight:700;color:var(--tf);letter-spacing:2px;border-bottom:1px solid var(--b);padding-bottom:10px;margin-bottom:16px}
+        .trip-card{background:#fff;border:1px solid var(--b);border-radius:16px;margin-bottom:10px;overflow:hidden;word-break:break-all}
+        .trip-head{cursor:pointer;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;gap:14px;user-select:none}
+        .trip-head:hover{background:#fafafa}
+        .trip-head .th-left .th-date{font-size:11px;color:var(--tf);font-weight:600;letter-spacing:1px;margin-bottom:3px}
+        .trip-head .th-left .th-title{font-size:17px;font-weight:700}
+        .trip-head .th-left .th-note{font-size:13px;color:var(--td);margin-top:3px}
+        .trip-head .th-count{font-size:12px;color:var(--td)}
+        .trip-head .th-arrow{font-size:16px;color:var(--tf);transition:transform .3s}
+        .trip-card.open .th-arrow{transform:rotate(180deg)}
+        .trip-body{display:none;padding:0 26px 22px}
+        .trip-card.open .trip-body{display:block}
+        .trip-body .strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}
+        .trip-body .strip img{height:100px;border-radius:10px;cursor:pointer;flex-shrink:0;transition:transform .2s}
+        .trip-body .strip img:hover{transform:scale(1.05)}
+        .trip-body .strip::-webkit-scrollbar{height:4px}
+        .trip-body .strip::-webkit-scrollbar-thumb{background:var(--b);border-radius:2px}
+
+        .empty{text-align:center;padding:80px 0;color:var(--tf);font-size:14px}
+        footer{text-align:center;padding:48px 40px;font-size:12px;color:var(--tf);border-top:1px solid var(--b)}
+    </style>
+</head>
+<body>
+
+    <nav><div class="inner"><a href="index.html" style="text-decoration:none;color:inherit"><div class="logo"><img src="avatar.jpg" alt="" onerror="this.style.display='none'">慕安延</div></a></div></nav>
+
+    <div class="wrap">
+        <div class="hero"><div class="sup">TRAVEL LOG</div><h1>足迹</h1><div class="sub">走过的地方，看过的风景。</div><div class="motto">去想去的地方 &nbsp;看想看的风景</div></div>
+
+        <div class="top-grid">
+            <div class="caro" id="caroP"><div class="caro-track" id="caroPTrack"></div><button class="caro-arrow pl" onclick="moveCaro('P',-1)">‹</button><button class="caro-arrow pr" onclick="moveCaro('P',1)">›</button><div class="caro-dots" id="caroPDots"></div></div>
+            <div class="right-stack">
+                <div class="caro" id="caroL"><div class="caro-track" id="caroLTrack"></div><button class="caro-arrow pl" onclick="moveCaro('L',-1)">‹</button><button class="caro-arrow pr" onclick="moveCaro('L',1)">›</button><div class="caro-dots" id="caroLDots"></div></div>
+            </div>
+        </div>
+
+        <div class="quote"><div class="q">关于你的 <strong>2026</strong>，你可曾去过什么地方</div></div>
+
+        <div class="map-row">
+            <div class="map-text">你看世界如此辽阔</div>
+            <div class="map-wrap"><div class="map-container"><div class="map-bg"><canvas id="mapCanvas"></canvas><div id="mapMarkers"></div></div></div></div>
+        </div>
+
+        <div class="trips-row">
+            <div class="trips" id="trips"><div class="empty">加载中...</div></div>
+            <div class="calendar" id="calendar">
+                <div class="cal-header"><button onclick="changeMonth(-1)">‹</button><div class="month" id="calMonth">2026年5月</div><button onclick="changeMonth(1)">›</button></div>
+                <div class="cal-grid" id="calGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="close">&times;</span><span class="nav prev" onclick="event.stopPropagation();navLB(-1)">‹</span><img id="lb-img"><span class="nav next" onclick="event.stopPropagation();navLB(1)">›</span></div>
+    <footer>&copy; 2026 慕安延</footer>
+
+    <script>
+    let allPhotos=[],lbIdx=0,lbList=[],calYear=2026,calMonth=5,travelDates=[],caroIdx={L:0,P:0},caroInt={L:null,P:null};
+    fetch('data.json').then(r=>r.json()).then(data=>{
+        const trips=data.trips;travelDates=trips.map(e=>e.date);
+        const L=(data.carousel_landscape||[]).map(p=>({src:p}));
+        const P=(data.carousel_portrait||[]).map(p=>({src:p}));
+        allPhotos=L.concat(P);
+        buildCaro('L',L);buildCaro('P',P);
+        buildCalendar();buildMap(trips);buildTrips(trips);
+    });
+    function buildCaro(id,slides){const el=document.getElementById('caro'+id);if(!slides.length){el.style.display='none';return}document.getElementById('caro'+id+'Track').innerHTML=slides.map((s,i)=>`<div class="caro-slide" onclick="openPhoto('${s.src}')"><img src="${s.src}" onerror="this.parentElement.style.display='none'"></div>`).join('');document.getElementById('caro'+id+'Dots').innerHTML=slides.map((_,i)=>`<span class="${i===0?'active':''}" onclick="goCaro('${id}',${i})"></span>`).join('');caroInt[id]=setInterval(()=>moveCaro(id,1),4000)}
+    function moveCaro(id,d){const ds=document.querySelectorAll('#caro'+id+'Dots span');if(!ds.length)return;caroIdx[id]=(caroIdx[id]+d+ds.length)%ds.length;document.getElementById('caro'+id+'Track').style.transform=`translateX(-${caroIdx[id]*100}%)`;ds.forEach((x,i)=>x.className=i===caroIdx[id]?'active':'');clearInterval(caroInt[id]);caroInt[id]=setInterval(()=>moveCaro(id,1),4000)}
+    function goCaro(id,i){caroIdx[id]=i-1;moveCaro(id,1)}
+    function openPhoto(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('show')}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('show')}
+    function navLB(d){if(lbIdx+d>=0&&lbIdx+d<allPhotos.length)openLB(lbIdx+d)}
+    document.addEventListener('keydown',e=>{if(!document.getElementById('lightbox').classList.contains('show'))return;if(e.key==='Escape')closeLightbox()});
+    function buildCalendar(){const g=document.getElementById('calGrid'),m=document.getElementById('calMonth');m.textContent=`${calYear}年${calMonth}月`;const fd=new Date(calYear,calMonth-1,1).getDay(),dim=new Date(calYear,calMonth,0).getDate();let h='日一二三四五六'.split('').map(d=>`<div class="dow">${d}</div>`).join('');for(let i=0;i<fd;i++)h+='<div class="day"></div>';for(let d=1;d<=dim;d++){const ds=`${calYear}-${String(calMonth).padStart(2,'0')}-${String(d).padStart(2,'0')}`;h+=`<div class="day${travelDates.includes(ds)?' travel':''}"${travelDates.includes(ds)?` onclick="location.href='detail.html?date=${ds}'"`:''}>${d}</div>`}g.innerHTML=h}
+    function changeMonth(d){calMonth+=d;if(calMonth>12){calMonth=1;calYear++}if(calMonth<1){calMonth=12;calYear--}buildCalendar()}
+    function buildMap(data){const c=document.getElementById('mapMarkers'),tc=data.filter(e=>e.lat&&e.lng);fetch('china.json').then(r=>r.json()).then(geo=>{const canvas=document.getElementById('mapCanvas');if(!canvas)return;const ctx=canvas.getContext('2d'),dpr=window.devicePixelRatio||1,rect=canvas.parentElement.getBoundingClientRect();canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;ctx.scale(dpr,dpr);canvas.style.width=rect.width+'px';canvas.style.height=rect.height+'px';const F=geo.features;let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;F.forEach(f=>{const C=f.geometry.coordinates.flat(Infinity);for(let i=0;i<C.length;i+=2){if(C[i]<x0)x0=C[i];if(C[i]>x1)x1=C[i];if(C[i+1]<y0)y0=C[i+1];if(C[i+1]>y1)y1=C[i+1]}});const p=10,w=rect.width-p*2,h=rect.height-p*2,sx=w/(x1-x0),sy=h/(y1-y0),s=Math.min(sx,sy),ox=p+(w-(x1-x0)*s)/2,oy=p+(h-(y1-y0)*s)/2;ctx.fillStyle='rgba(37,99,235,.04)';ctx.strokeStyle='rgba(37,99,235,.25)';ctx.lineWidth=1;F.forEach(f=>{ctx.beginPath();const D=(c)=>{if(typeof c[0][0]==='number'){ctx.moveTo(ox+(c[0][0]-x0)*s,oy+(y1-c[0][1])*s);for(let i=1;i<c.length;i++)ctx.lineTo(ox+(c[i][0]-x0)*s,oy+(y1-c[i][1])*s)}else c.forEach(D)};D(f.geometry.coordinates);ctx.fill();ctx.stroke()});const Lb=[{n:'新疆',x:88,y:42},{n:'西藏',x:91,y:32},{n:'内蒙古',x:112,y:44},{n:'青海',x:96,y:36},{n:'四川',x:103,y:30},{n:'云南',x:102,y:25},{n:'贵州',x:106,y:27},{n:'广西',x:108,y:23},{n:'广东',x:113,y:23},{n:'福建',x:118,y:26},{n:'浙江',x:120,y:29},{n:'江苏',x:119,y:33},{n:'安徽',x:117,y:32},{n:'湖北',x:113,y:31},{n:'湖南',x:112,y:28},{n:'江西',x:116,y:28},{n:'河南',x:114,y:34},{n:'山东',x:117,y:36},{n:'河北',x:115,y:38},{n:'山西',x:112,y:37},{n:'陕西',x:109,y:35},{n:'甘肃',x:104,y:37},{n:'宁夏',x:106,y:37},{n:'黑龙江',x:127,y:47},{n:'吉林',x:125,y:44},{n:'辽宁',x:123,y:42},{n:'台湾',x:121,y:24},{n:'海南',x:110,y:19}];ctx.font='10px Inter,Noto Sans SC,sans-serif';ctx.fillStyle='rgba(0,0,0,.14)';ctx.textAlign='center';Lb.forEach(l=>{ctx.fillText(l.n,ox+(l.x-x0)*s,oy+(y1-l.y)*s)});if(tc.length>1){tc.sort((a,b)=>a.date.localeCompare(b.date));ctx.beginPath();ctx.strokeStyle='rgba(37,99,235,.5)';ctx.lineWidth=2;ctx.setLineDash([6,4]);for(let i=0;i<tc.length;i++){const lx=ox+(tc[i].lng-x0)*s,ly=oy+(y1-tc[i].lat)*s;i===0?ctx.moveTo(lx,ly):ctx.lineTo(lx,ly)}ctx.stroke();ctx.setLineDash([])}c.innerHTML=tc.map(e=>{const l=ox+(e.lng-x0)*s,t=oy+(y1-e.lat)*s;return`<a class="map-marker" href="detail.html?date=${e.date}" style="left:${l/rect.width*100}%;top:${t/rect.height*100}%;"><div class="dot"></div><div class="tooltip"><div class="tp-date">${e.date}</div><div class="tp-title">${e.city} · ${e.title}</div>${e.photos[0]?`<img class="tp-img" src="${e.photos[0]}" onerror="this.style.display='none'">`:''}<div class="tp-count">📷 ${e.photos.length} 张 →</div></div></a>`}).join('')})}
+    function buildTrips(data){const t=document.getElementById('trips');if(!data.length){t.innerHTML='<div class="empty">还没有记录。</div>';return}data.sort((a,b)=>a.date.localeCompare(b.date));t.innerHTML='<h2>旅行记录</h2>'+data.map((e,i)=>`<div class="trip-card${i===0?' open':''}"><div class="trip-head" onclick="location.href=\'${e.city===`南昌`?`nanchang.html`:`detail.html?date=${e.date}`}\'"><div class="th-left"><div class="th-date">${e.date}</div><div class="th-title">${e.city} · ${e.title}</div><div class="th-note">${e.note||''}</div></div><span class="th-count">📷 ${e.photos.length} 张</span><span class="th-arrow" onclick="event.stopPropagation();this.closest('.trip-card').classList.toggle('open')">▾</span></div><div class="trip-body"><div class="strip">${e.photos.map(p=>`<img src="${p}" loading="lazy" onclick="event.stopPropagation();openTripPhoto('${p}')" onerror="this.style.display='none'">`).join('')}</div></div></div>`).join('')}
+    function openTripPhoto(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('show')}
+    </script>
+</body>
+</html>
